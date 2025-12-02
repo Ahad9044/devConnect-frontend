@@ -46,11 +46,11 @@ const Header = () => {
             </span>
           </Link>
         </div>
-
+{ user?._id && 
         <div className="flex gap-2">
           <Link to="requests"> <div className="mr-5 mt-3 text-2xl"><LiaUserFriendsSolid /></div></Link>
           <Link to="connections"><div className=" mr-10 mt-4 text-xl"><BsChatLeftDots /></div></Link>
-          <h3 className="mr-3 mt-3 hidden sm:block"> Welcome, {user.firstName}</h3>
+          <h3 className="mr-3 mt-3 hidden sm:block "> Welcome, <span className="font-bold">{user.firstName}</span></h3>
           <div className="dropdown dropdown-end">
             {user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar mr-6">
               <div className="w-10 rounded-full ">
@@ -78,6 +78,7 @@ const Header = () => {
             </ul>
           </div>
         </div>
+}
       </div>
     </div>
   )
