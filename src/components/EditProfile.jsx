@@ -33,6 +33,11 @@ const EditProfile = ({ data }) => {
   }, [updatedUser]);
 
   const saveProfile = async () => {
+    if (!gender) {
+      setError("Please select your gender before saving.");
+      return;
+    }
+
     try {
       const res = await axios.patch(
         Base_URL + "/profile/update",
@@ -46,14 +51,12 @@ const EditProfile = ({ data }) => {
         },
         { withCredentials: true }
       );
-
-
       dispatch(addUser(res?.data?.updateUser));
       setShowToast(true)
       setTimeout(() => setShowToast(false), 3000);
     } catch (err) {
       console.log("Update error:", err);
-      setError(err.message);
+      setError(err?.response?.data || err.message || "Failed to update profile");
     }
   };
 
@@ -115,12 +118,17 @@ const EditProfile = ({ data }) => {
             <select
               value={gender}
               className="select w-25"
-              onChange={(e) => setGender(e.target.value)}
+              onChange={(e) => {
+                setGender(e.target.value);
+                setError("");
+              }}
             >
-              <option disabled={true}>Choose your gender</option>
-              <option>Male</option>
-              <option>Female</option>
-              <option>Others</option>
+              <option value="" disabled>
+                Choose your gender
+              </option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Others">Others</option>
             </select>
           </fieldset>
         </div>

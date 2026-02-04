@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet, useNavigate, useLocation } from "react-router-dom"
 import Header from "./Header"
 import { Base_URL } from "../utils/constants"
 import { useDispatch } from "react-redux"
@@ -10,28 +10,27 @@ import { useEffect } from "react"
 const Body = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
 
   const fetchUser = async () => {
     try {
-      {
-        const response = await axios.get(Base_URL + "/profile", {
-          withCredentials: true
-        })
-        // console.log(response)
-        dispatch(addUser(response.data))
-      }
-    }
-    catch (err) {
-      if(err.status == 401){
-
+      const response = await axios.get(Base_URL + "/profile", {
+        withCredentials: true,
+      })
+      dispatch(addUser(response.data))
+    } catch (err) {
+      if (err?.response?.status === 401) {
         navigate("/login")
-        console.log(err)
+      } else {
+        console.error("Failed to fetch user profile:", err)
       }
     }
   }
     useEffect(() => {
+      // Avoid unnecessary profile calls while on the login page
+      if (location.pathname === "/login") return
       fetchUser()
-    }, [])
+    }, [location.pathname])
   
 
   return (

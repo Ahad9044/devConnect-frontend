@@ -2,23 +2,43 @@ import axios from 'axios';
 import { Base_URL, defaultPhoto } from '../utils/constants';
 import { useDispatch } from 'react-redux';
 import { removeFeed } from '../utils/feedSlice';
+import { useState } from 'react';
 
 const Card = ({ data, className = "" }) => {
   const dispatch = useDispatch();
   const { firstName, lastName, gender, age, about, photoUrl, _id } = data;
+  const [swipeDirection, setSwipeDirection] = useState(null);
 
-  const fetchData = async (status, _id) => {
+  const handleAction = async (status, id, direction) => {
     try {
-      await axios.post(`${Base_URL}/request/${status}/${_id}`, {}, { withCredentials: true });
-      dispatch(removeFeed(_id));
+      // Trigger a quick swipe animation
+      setSwipeDirection(direction);
+
+      // Let the animation play before updating the feed
+      setTimeout(() => {
+        dispatch(removeFeed(id));
+      }, 250);
+
+      await axios.post(
+        `${Base_URL}/request/${status}/${id}`,
+        {},
+        { withCredentials: true },
+      );
     } catch (err) {
       console.log(err);
+      // If needed, we could roll back the UI change here.
+    } finally {
+      setSwipeDirection(null);
     }
   };
 
   return (
     <div className={`flex justify-center mt-10 px-2 sm:px-4 ${className}`}>
-      <div className="card bg-base-300 w-full sm:w-80 md:w-96 shadow-lg rounded-xl hover:shadow-2xl transition-shadow duration-300">
+      <div
+        className={`card bg-base-300 w-full sm:w-80 md:w-96 shadow-lg rounded-xl hover:shadow-2xl transition-shadow duration-300
+        ${swipeDirection === "left" ? "animate-swipe-left" : ""}
+        ${swipeDirection === "right" ? "animate-swipe-right" : ""}`}
+      >
         {/* User Photo */}
         <figure className="overflow-hidden rounded-t-xl">
           <img
@@ -45,13 +65,13 @@ const Card = ({ data, className = "" }) => {
           <div className="card-actions flex justify-center gap-4 mt-4">
             <button
               className="btn btn-outline btn-secondary w-24"
-              onClick={() => fetchData("ignored", _id)}
+              onClick={() => handleAction("ignored", _id, "left")}
             >
               Ignore
             </button>
             <button
               className="btn btn-primary w-24"
-              onClick={() => fetchData("interested", _id)}
+              onClick={() => handleAction("interested", _id, "right")}
             >
               Interested
             </button>

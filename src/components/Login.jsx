@@ -20,12 +20,24 @@ const Login = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await axios.post(Base_URL + "/login", {
-        emailId: useEmail,
-        password: usePassword
-      }, { withCredentials: true })
-      dispatch(addUser(response.data))
-      navigate("/")
+      // First authenticate the user
+      await axios.post(
+        Base_URL + "/login",
+        {
+          emailId: useEmail,
+          password: usePassword,
+        },
+        { withCredentials: true },
+      )
+
+      // Then immediately fetch the full profile so Redux has
+      // all details without requiring a manual refresh
+      const profileRes = await axios.get(Base_URL + "/profile", {
+        withCredentials: true,
+      })
+
+      dispatch(addUser(profileRes.data))
+      navigate("/profile")
     } catch (err) {
       setErrorMessage(err?.response?.data || "Something went wrong!")
     }
@@ -33,13 +45,23 @@ const Login = () => {
 
   const handleSignUp = async () => {
     try {
-      const res = await axios.post(Base_URL + "/signup", {
-        firstName,
-        lastName,
-        emailId: useEmail,
-        password: usePassword
-      }, { withCredentials: true })
-      dispatch(addUser(res.data))
+      await axios.post(
+        Base_URL + "/signup",
+        {
+          firstName,
+          lastName,
+          emailId: useEmail,
+          password: usePassword,
+        },
+        { withCredentials: true },
+      )
+
+      // After signup, fetch the freshly created profile
+      const profileRes = await axios.get(Base_URL + "/profile", {
+        withCredentials: true,
+      })
+
+      dispatch(addUser(profileRes.data))
       navigate("/profile")
     } catch (err) {
       setErrorMessage(err?.response?.data || "Something went wrong!")
