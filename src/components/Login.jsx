@@ -17,7 +17,7 @@ const Login = () => {
   const [isLogin, setIsLogin] = useState(true)
 
   const dispatch = useDispatch()
-
+  console.log("Testing code ")
   const handleLogin = async () => {
     try {
       // First authenticate the user
