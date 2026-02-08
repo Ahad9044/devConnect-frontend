@@ -10,7 +10,7 @@ const Payments = () => {
             setIsUserPremium(true)
         }
     }
-    useEffect(() => { verifyPremiumUser }, [])
+    useEffect(() => { verifyPremiumUser() }, [])
 
     const handleClick = async (type) => {
         const order = await axios.post(Base_URL + "/payment/create", {
