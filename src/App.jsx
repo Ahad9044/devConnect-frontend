@@ -14,6 +14,7 @@ import Terms from './components/Terms'
 import Refund from './components/Refund'
 import ContactUs from './components/ContactUs'
 import AboutUs from './components/AboutUs'
+import Payments from './components/Payments'
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
               <Route path='/profile' element={<Profile />} />
               <Route path='/requests' element={<Requests />} />
               <Route path='/connections' element={<Connection />} />
+              <Route path='/payments' element={<Payments />} />
               <Route path='/chat/:id' element={<Chat />} />
 
             </Route>

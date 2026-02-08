@@ -46,39 +46,43 @@ const Header = () => {
             </span>
           </Link>
         </div>
-{ user?._id && 
-        <div className="flex gap-2">
-          <Link to="requests"> <div className="mr-5 mt-3 text-2xl"><LiaUserFriendsSolid /></div></Link>
-          <Link to="connections"><div className=" mr-10 mt-4 text-xl"><BsChatLeftDots /></div></Link>
-          <h3 className="mr-3 mt-3 hidden sm:block "> Welcome, <span className="font-bold">{user.firstName}</span></h3>
-          <div className="dropdown dropdown-end">
-            {user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar mr-6">
-              <div className="w-10 rounded-full ">
-                <img
+        {user?._id &&
+          <div className="flex gap-2">
+            <Link to="requests"> <div className="mr-5 mt-3 text-2xl"><LiaUserFriendsSolid /></div></Link>
+            <Link to="connections"><div className=" mr-10 mt-4 text-xl"><BsChatLeftDots /></div></Link>
+            <h3 className="mr-3 mt-3 hidden sm:block "> Welcome, <span className="font-bold">{user.firstName}</span></h3>
+            <div className="dropdown dropdown-end">
+              {user && <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar mr-6">
+                <div className="w-10 rounded-full ">
+                  <img
 
-                  alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-                />
-              </div>
-            </div>}
-            <ul
-              tabIndex={0}
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-              <li>
-                <Link to="/profile" className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </Link>
-              </li>
-              <li><Link to="/requests">Requests</Link></li>
-              <li><Link to="/connections">Connections</Link></li>
-              <li>
-                <a onClick={handleClick}>Logout</a>
-              </li>
-            </ul>
+                    alt="Tailwind CSS Navbar component"
+                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  />
+                </div>
+              </div>}
+              <ul
+                tabIndex={0}
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+                <li><Link to="/payments">Premium  
+                 <span className="badge">New </span>
+                 </Link>
+
+                </li>
+                <li>
+                  <Link to="/profile" className="justify-between">
+                    Profile
+                  </Link>
+                </li>
+                <li><Link to="/requests">Requests</Link></li>
+                <li><Link to="/connections">Connections</Link></li>
+                <li>
+                  <a onClick={handleClick}>Logout</a>
+                </li>
+              </ul>
+            </div>
           </div>
-        </div>
-}
+        }
       </div>
     </div>
   )
