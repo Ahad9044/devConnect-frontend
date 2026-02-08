@@ -10,7 +10,7 @@ const Payments = () => {
   const verifyPremiumUser = async () => {
     try {
       const res = await axios.get(
-        `${Base_URL}/premium/verify`,
+        `${Base_URL}/payment/verify`,
         { withCredentials: true }
       );
 
