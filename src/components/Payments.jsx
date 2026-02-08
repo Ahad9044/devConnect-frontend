@@ -6,6 +6,7 @@ const Payments = () => {
     const [isUserPremium, setIsUserPremium] = useState(false)
     const verifyPremiumUser = async () => {
         const res = await axios.get(Base_URL + "/premium/verify", { withCredentials: true })
+        console.log(res.data.isPremium)
         if (res.data.isPremium) {
             setIsUserPremium(true)
         }
@@ -43,7 +44,8 @@ const Payments = () => {
     }
 
     return (
-        <>
+        <> 
+        {console.log(isUserPremium)}
             {isUserPremium ? <div> You are already a premium user</div> : <div>
                 <div className="flex w-full">
                     <div className="card bg-base-300 rounded-box grid h-80 grow place-items-center">
